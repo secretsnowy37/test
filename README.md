@@ -1,6 +1,6 @@
-# FrontEnd Usage
+# uhc
 
-> Employees at Inmar want to manage contact's information
+> A Vue.js project
 
 ## Build Setup
 

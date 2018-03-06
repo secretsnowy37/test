@@ -31,6 +31,9 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals: {
+    Razorpay: 'Razorpay'
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {

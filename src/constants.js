@@ -1,3 +1,5 @@
-export const constants = {
-  login: 'https://api.codejunkers.xyz/index.php/login'
+export default {
+  api_urls: {
+    'login': '/login'
+  }
 }
