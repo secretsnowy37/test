@@ -16,6 +16,7 @@
   "dependencies": {
     "aos": "^2.2.0",
     "axios": "^0.17.1",
+    "bootstrap3": "^3.3.5",
     "element-ui": "^2.0.10",
     "font-awesome": "^4.7.0",
     "ionicons": "^3.0.0",

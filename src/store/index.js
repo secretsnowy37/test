@@ -24,8 +24,8 @@ export default new Vuex.Store({
     loginSuccess (state, resp) {
       state.loginStatus = 'Success'
       state.token = resp.data.token
-      state.userDetails = resp.data.userDetails
-      state.userType = resp.data.userDetails.user_type
+      state.userDetails = resp.data.userdetails
+      state.userType = 'staff'
     },
     loginError (state, err) {
       state.loginStatus = err.data.message
@@ -47,8 +47,8 @@ export default new Vuex.Store({
         axios.post('login', credentials)
           .then(resp => {
             localStorage.setItem('token', resp.data.token)
-            localStorage.setItem('user_type', resp.data.userDetails.user_type)
-            localStorage.setItem('user_details', JSON.stringify(resp.data.userDetails))
+            localStorage.setItem('user_type', 'staff')
+            localStorage.setItem('user_details', JSON.stringify(resp.data.userdetails))
             axios.defaults.headers.common['Authorization'] = resp.data.token
             commit('loginSuccess', resp)
             // dispatch(USER_REQUEST)

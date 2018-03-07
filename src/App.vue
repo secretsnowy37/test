@@ -1,6 +1,43 @@
   <template>
   <div id="app">
-      <router-view @change="onLoginChange" @hideNav="hideNav"></router-view>
+    <div class="header-top">
+      <h1 class="text-center">PVP SIDDHARTHA INSTITUTE OF TECHNOLOGY</h1>
+    </div>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">NBA CRITERIA 5</a>
+        </div>
+        
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav navbar-right" v-if="!loginStatus">
+            <li><router-link to="/">Home</router-link></li>
+            <li><router-link to="/login">Login</router-link></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right" v-if="loginStatus">
+            <li><router-link to="/dashboard">Dashboard</router-link></li>
+            <li><router-link to="/profile">Profile</router-link></li>
+            <li><router-link to="/roles">Roles</router-link></li>
+            <li><router-link to="/reports">Reports</router-link></li>
+            <li><router-link to="/logout">Logout</router-link></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </nav>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <router-view @change="onLoginChange"></router-view>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,8 +46,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      loginStatus: {
-      },
+      loginStatus: this.$store.getters.isAuthenticated,
       head: true,
       mNav: false
     }
@@ -26,75 +62,20 @@ export default {
       if (value.status === true) {
         this.loginStatus = value
       }
-    },
-    hideNav () {
-      this.head = false
-    },
-    changeNav () {
-      this.mNav = !this.mNav
-    },
-    changeRoot (url) {
-      this.$router.push(url)
-      this.changeNav()
     }
-  },
-  created () {
-    // console.log(this.$store.getters.isAuthenticated)
-    // console.log(this.$store.state.loginStatus)
-    // console.log(this.$store.state.userDetails)
-    // console.log(this.$store.state.userType)
   }
 }
 </script>
 
 <style>
-.min-100 {
-  min-height: 100vh;
+.header-top {
+  padding: 1em 0em;
 }
-/*sidenav form mobile*/
-  .sidenav {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
-  }
-  .mobile-nav {
-    margin:0em;
-    padding: 1em 0em 0em;
-    display: inline-block;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    width: 100%;
-  }
-  .mobile-nav li {
-    overflow: hidden;
-    padding: 1em;
-    width: 100%;
-    text-align: center;
-  }
-  .mobile-nav>li>a {
-    font-size: 1.1em;
-    letter-spacing: 1px;
-  }
-  .burger-icon {
-    font-size: 1.7em;
-    margin-right: 0.7em;
-  }
-  .show {
-    display: block;
-  }
-  .close-nav {
-    font-weight: bold;
-    color: red;
-    font-size: 2em;
-    padding: 0.5em;
-  }
-  @media only screen and (max-width: 784px) {
-    .hidden-xs {
-      display: none!important;
-    }
-  }
+.navbar {
+  /*border:0;*/
+  border-radius: 0px;
+  /*margin-bottom: 0px;*/
+  position: sticky;
+  top: 0;
+}
 </style>

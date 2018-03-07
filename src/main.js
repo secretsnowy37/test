@@ -6,14 +6,12 @@ import ElementUI from 'element-ui'
 import router from './router'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
-import VueGoodTable from 'vue-good-table'
-import VueGallery from 'vue-gallery'
 import 'element-ui/lib/theme-chalk/index.css'
+import '../node_modules/bootstrap3/dist/css/bootstrap.min.css'
 import '../node_modules/font-awesome/css/font-awesome.min.css'
 import '../node_modules/ionicons/dist/css/ionicons.css'
 import './assets/css/style.css'
 import 'aos/dist/aos.css'
-import * as VueGoogleMaps from '../node_modules/vue2-google-maps/src/main'
 import {constants, axios} from './bootstrap'
 import store from './store'
 
@@ -71,14 +69,6 @@ Vue.prototype.$axios = axios
 Vue.prototype.$constants = constants
 
 Vue.use(ElementUI)
-Vue.use(VueGoodTable)
-Vue.use(VueGallery)
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyBLFLAneQG9du2zGkCekOrGOYumicdLJOc',
-    libraries: 'places,drawing,visualization'
-  }
-})
 locale.use(lang)
 
 /* eslint-disable no-new */
