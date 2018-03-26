@@ -6,3 +6,12 @@ body {
 	margin:0;
 	overflow-x: hidden;
 }
+a{
+	cursor: pointer;
+}
+.sub-page-head {
+	color: orangered;
+}
+.f-right {
+	float: right!important;
+}

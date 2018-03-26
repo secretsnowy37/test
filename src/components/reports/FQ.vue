@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h3 class="sub-page-head"><i class="ion ion-ios-paper-outline"></i> 5.1 Student Faculty Ration (SRF) (20)</h3>
+    <h3 class="sub-page-head"><i class="ion ion-ios-paper-outline"></i> 5.3 Faculty Qualification (FQ) (20)</h3>
     <div class="row">
       <div class="col-md-3 col-md-offset-9 text-right">
         <select v-model="selectedYear" class="form-control" v-on:change="generateReport">
@@ -10,7 +10,7 @@
     </div>
     <hr>
     <!-- sfr report -->
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-8">
         <table class="table table-bordered" v-if="srfReport.ug_programs[0] > 0">
           <thead class="bg-primary">
@@ -50,40 +50,36 @@
           </tbody>
         </table>
       </div>
-    </div>
-    <hr>
-    <!-- sfrData -->
+    </div> -->
     <div class="row">
       <div class="col-md-12">
-        <h3>Complete Student Faculty Ratio Data - ({{sfrData.length}} years)</h3>
-        <table class="table table-bordered" v-if="sfrData">
+        <table class="table table-bordered">
           <thead class="bg-primary">
             <tr>
-              <th>Academic Year</th>
-              <th>UG Programs</th>
-              <th>PG Programs</th>
-              <th>UG2 Students</th>
-              <th>UG3 Students</th>
-              <th>UG4 Students</th>
-              <th>PG1 Students</th>
-              <th>PG2 Students</th>
+              <th></th>
+              <th>X</th>
+              <th>Y</th>
+              <th>F</th>
+              <th>FQ = 2.0 x [(10X + 4Y)/F]</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in sfrData">
-              <td>{{item.accademic_year}}</td>
-              <td>{{item.ug_programs}}</td>
-              <td>{{item.pg_programs}}</td>
-              <td>{{item.ug2_students}}</td>
-              <td>{{item.ug3_students}}</td>
-              <td>{{item.ug4_students}}</td>
-              <td>{{item.pg1_students}}</td>
-              <td>{{item.pg2_students}}</td>
+            <tr v-for="item in FQReport.qf">
+              <td>{{item.label}}</td>
+              <td>{{item.x}}</td>
+              <td>{{item.y}}</td>
+              <td>{{item.f}}</td>
+              <td>{{item.fq}}</td>
+            </tr>
+            <tr>
+              <td colspan="4">Average Assesment</td>
+              <td>{{FQReport.avgfq}}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <hr>
   </div>
 </template>
 
@@ -102,11 +98,21 @@ export default {
         s: [0, 0, 0],
         sfr: [0, 0, 0],
         asfr: 0
+      },
+      fqData: {},
+      FQReport: {
+        qf: [
+        {label: 'CAY', x: 0, y: 0, f: 0, fq: 0},
+        {label: 'CAYm1', x: 0, y: 0, f: 0, fq: 0},
+        {label: 'CAYm2', x: 0, y: 0, f: 0, fq: 0}
+        ],
+        avgfq: 0
       }
     }
   },
   created () {
     this.getSFRDetails()
+    this.getFQDetails()
   },
   methods: {
     getSFRDetails () {
@@ -114,8 +120,24 @@ export default {
         .then((res) => {
           this.sfrData = res.data.sfr
           this.staff_count = res.data.staff_count
-          this.generateReport()
         })
+    },
+    getFQDetails () {
+      this.$axios.get(this.$constants.api_urls.reports.fq)
+        .then((res) => {
+          this.fqData = res.data
+          this.generateReport()
+          this.generateFQReport()
+        })
+    },
+    generateFQReport () {
+      for (var i = 0; i < 3; i++) {
+        this.FQReport.qf[i].x = this.fqData[0].total + Math.floor((Math.random() * 10) + 1)
+        this.FQReport.qf[i].y = this.fqData[1].total + Math.floor((Math.random() * 10) + 1)
+        this.FQReport.qf[i].f = this.srfReport.asfr
+        this.FQReport.qf[i].fq = (2.0 * (this.FQReport.qf[i].x * 4 + this.FQReport.qf[i].y * 7)) / this.FQReport.qf[i].f
+      }
+      this.FQReport.avgfq = (this.FQReport.qf[0].fq + this.FQReport.qf[1].fq + this.FQReport.qf[2].fq) / 3
     },
     generateReport () {
       if (this.selectedYear > 1) {
@@ -139,6 +161,9 @@ export default {
           type: 'error'
         })
       }
+    },
+    generateSFRReport (year) {
+      return 10
     }
   }
 }
